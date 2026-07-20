@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrativo Veterinario</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 0;
+        }
+      
+        .sidebar-container {
+            width: 300px;
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+            z-index: 3;
+        }
+        .main-content {
+            margin-left: 300px;
+            padding: 32px;
+            min-height: 100vh;
+        }
+        
+        .submenu {
+            display: none;
+            background-color: #f1f5f9;
+            padding-left: 12px;
+        }
+        .w3-bar-item {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+      
+        .modulo-seccion {
+            display: none;
+        }
+        .modulo-seccion.activo {
+            display: block;
+        }
+        
+        .active-sub {
+            border-left: 4px solid #2196F3;
+            background-color: #cbd5e1 !important;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar-container w3-sidebar w3-bar-block w3-white w3-card-4">
+        
+        <div class="w3-container w3-padding-16 w3-blue w3-center w3-card">
+            <div class="w3-margin-top" style="font-size: 48px;"><i class="fa-solid fa-shield-dog"></i></div>
+            <h4 class="w3-bold" style="margin: 8px 0 2px 0; font-weight:700; letter-spacing: 1px;">VetCare Pro</h4>
+            <p class="w3-small" style="margin:0; opacity: 0.85;">Panel Clínico Administrativo</p>
+            
+            <div class="w3-row w3-margin-top w3-padding w3-round w3-light-gray w3-text-dark-gray" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <i class="fa-solid fa-user-md w3-xlarge w3-text-blue"></i>
+                <div class="w3-left-align">
+                    <span class="w3-tiny w3-block w3-text-gray" style="line-height:1;">Usuario:</span>
+                    <strong class="w3-small w3-text-blue-grey">Anderson joseph giron bonilla</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-padding-16">
+            
+            <button onclick="toggleSubmenu('menu-mascotas')" class="w3-button w3-block w3-left-align w3-hover-blue w3-padding-12">
+                <i class="fa-solid fa-dog w3-margin-right w3-text-blue"></i> <b>Mascotas</b>
+                <i class="fa-solid fa-chevron-down w3-right w3-small" style="margin-top:4px;"></i>
+            </button>
+            <div id="menu-mascotas" class="submenu w3-animate-left">
+                <span onclick="mostrarModulo('sec-lista-mascotas', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-table-list w3-margin-right"></i> Lista de Mascotas</span>
+                <span onclick="mostrarModulo('sec-registro-pacientes', this)" id="default-sub" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-user-plus w3-margin-right"></i> Registro de Pacientes</span>
+                <span onclick="mostrarModulo('sec-actualizar-mascota', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-pen-to-square w3-margin-right"></i> Actualizar Datos de Mascota</span>
+            </div>
+
+            <button onclick="toggleSubmenu('menu-cirugias')" class="w3-button w3-block w3-left-align w3-hover-blue w3-padding-12">
+                <i class="fa-solid fa-heart-pulse w3-margin-right w3-text-blue"></i> <b>Cirugías</b>
+                <i class="fa-solid fa-chevron-down w3-right w3-small" style="margin-top:4px;"></i>
+            </button>
+            <div id="menu-cirugias" class="submenu w3-animate-left">
+                <span onclick="mostrarModulo('sec-calendario-cirugias', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-calendar-days w3-margin-right"></i> Calendario de Cirugías</span>
+                <span onclick="mostrarModulo('sec-programar-cirugia', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-calendar-plus w3-margin-right"></i> Programar Cirugía</span>
+                <span onclick="mostrarModulo('sec-postoperatorio', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-bed-pulse w3-margin-right"></i> Seguimiento Postoperatorio</span>
+            </div>
+
+            <button onclick="toggleSubmenu('menu-vacunacion')" class="w3-button w3-block w3-left-align w3-hover-blue w3-padding-12">
+                <i class="fa-solid fa-syringe w3-margin-right w3-text-blue"></i> <b>Vacunación</b>
+                <i class="fa-solid fa-chevron-down w3-right w3-small" style="margin-top:4px;"></i>
+            </button>
+            <div id="menu-vacunacion" class="submenu w3-animate-left">
+                <span onclick="mostrarModulo('sec-historial-vacunas', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-clock-rotate-left w3-margin-right"></i> Historial de Vacunación</span>
+                <span onclick="mostrarModulo('sec-registrar-vacuna', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-plus w3-margin-right"></i> Registrar Nueva Vacuna</span>
+                <span onclick="mostrarModulo('sec-proximas-vacunas', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-calendar-check w3-margin-right"></i> Próximas Vacunas</span>
+            </div>
+
+            <button onclick="toggleSubmenu('menu-farmacia')" class="w3-button w3-block w3-left-align w3-hover-blue w3-padding-12">
+                <i class="fa-solid fa-pills w3-margin-right w3-text-blue"></i> <b>Farmacia</b>
+                <i class="fa-solid fa-chevron-down w3-right w3-small" style="margin-top:4px;"></i>
+            </button>
+            <div id="menu-farmacia" class="submenu w3-animate-left">
+                <span onclick="mostrarModulo('sec-inventario-farmacia', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-boxes-stacked w3-margin-right"></i> Inventario de Farmacia</span>
+                <span onclick="mostrarModulo('sec-entrada-medicamentos', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-circle-down w3-margin-right"></i> Entrada de Medicamentos</span>
+                <span onclick="mostrarModulo('sec-medicamentos-vencer', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-triangle-exclamation w3-margin-right"></i> Medicamentos por Vencer</span>
+            </div>
+
+            <button onclick="toggleSubmenu('menu-facturacion')" class="w3-button w3-block w3-left-align w3-hover-blue w3-padding-12">
+                <i class="fa-solid fa-file-invoice-dollar w3-margin-right w3-text-blue"></i> <b>Facturación</b>
+                <i class="fa-solid fa-chevron-down w3-right w3-small" style="margin-top:4px;"></i>
+            </button>
+            <div id="menu-facturacion" class="submenu w3-animate-left">
+                <span onclick="mostrarModulo('sec-nueva-factura', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-receipt w3-margin-right"></i> Nueva Factura</span>
+                <span onclick="mostrarModulo('sec-historial-facturas', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-history w3-margin-right"></i> Historial de Facturas</span>
+                <span onclick="mostrarModulo('sec-pagos-pendientes', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-clock w3-margin-right"></i> Pagos Pendientes</span>
+            </div>
+
+            <button onclick="toggleSubmenu('menu-configuracion')" class="w3-button w3-block w3-left-align w3-hover-blue w3-padding-12">
+                <i class="fa-solid fa-gears w3-margin-right w3-text-blue"></i> <b>Configuración</b>
+                <i class="fa-solid fa-chevron-down w3-right w3-small" style="margin-top:4px;"></i>
+            </button>
+            <div id="menu-configuracion" class="submenu w3-animate-left">
+                <span onclick="mostrarModulo('sec-datos-clinica', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-hospital w3-margin-right"></i> Datos de la Clínica</span>
+                <span onclick="mostrarModulo('sec-usuarios-sistema', this)" class="w3-bar-item w3-button w3-hover-blue w3-small"><i class="fa-solid fa-users-gear w3-margin-right"></i> Usuarios del Sistema</span>
+            </div>
+
+            <span onclick="logoutSimulado()" class="w3-bar-item w3-button w3-hover-red w3-padding-12 w3-margin-top w3-border-top">
+                <i class="fa-solid fa-right-from-bracket w3-margin-right w3-text-red"></i> Cerrar Sesión
+            </span>
+        </div>
+    </div>
+
+    <div class="main-content">
+        
+        <header class="w3-container w3-white w3-card w3-round w3-margin-bottom w3-padding-16">
+            <h2 class="w3-text-blue-grey" style="margin:0; font-weight:600;">
+                <i class="fa-solid fa-gauge-high w3-text-blue"></i> Sistema Veterinario de Control Interno
+            </h2>
+            <p class="w3-text-gray w3-small" style="margin:4px 0 0 0;">Panel interactivo local. Presione los apartados del menú lateral para cambiar de pantalla.</p>
+        </header>
+
+        <div id="sec-registro-pacientes" class="modulo-seccion activo w3-animate-opacity">
+            <div class="w3-card w3-white w3-round-large">
+                <div class="w3-container w3-blue-grey w3-padding-16" style="border-top-left-radius:8px; border-top-right-radius:8px;">
+                    <h3 style="margin:0; font-weight:500;">
+                        <i class="fa-solid fa-clipboard-list w3-margin-right"></i> Registro de Pacientes
+                    </h3>
+                </div>
+                
+                <form id="patientForm" class="w3-container w3-padding-24">
+                    <div class="w3-row-padding" style="margin-bottom: 16px;">
+                        <div class="w3-third w3-margin-bottom">
+                            <label class="w3-text-blue-grey"><b>Nombre de la Mascota</b></label>
+                            <input class="w3-input w3-border w3-round w3-light-gray" type="text" id="reg_nombre" placeholder="Ej. Max, Luna, Bruno" required>
+                        </div>
+                        <div class="w3-third w3-margin-bottom">
+                            <label class="w3-text-blue-grey"><b>Especie</b></label>
+                            <select class="w3-select w3-border w3-round w3-light-gray" id="reg_especie" required>
+                                <option value="" disabled selected>Seleccione la especie</option>
+                                <option value="Canino">Canino (Perro)</option>
+                                <option value="Felino">Felino (Gato)</option>
+                                <option value="Ave">Ave</option>
+                                <option value="Roedor">Roedor</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="w3-third w3-margin-bottom">
+                            <label class="w3-text-blue-grey"><b>Raza</b></label>
+                            <input class="w3-input w3-border w3-round w3-light-gray" type="text" id="reg_raza" placeholder="Ej. Poodle, Persa, Beagle" required>
+                        </div>
+                    </div>
+
+                    <div class="w3-row-padding" style="margin-bottom: 16px;">
+                        <div class="w3-half w3-margin-bottom">
+                            <label class="w3-text-blue-grey"><b>Peso (kg)</b></label>
+                            <input class="w3-input w3-border w3-round w3-light-gray" type="number" step="0.01" id="reg_peso" placeholder="Ej. 10.50" required>
+                        </div>
+                        <div class="w3-half w3-margin-bottom">
+                            <label class="w3-text-blue-grey"><b>DNI del Propietario</b></label>
+                            <input class="w3-input w3-border w3-round w3-light-gray" type="text" id="reg_dni" placeholder="Número de Documento" required>
+                        </div>
+                    </div>
+
+                    <div class="w3-row-padding" style="margin-bottom: 24px;">
+                        <div class="w3-col m12">
+                            <label class="w3-text-blue-grey"><b>Alergias / Observaciones</b></label>
+                            <textarea class="w3-textarea w3-border w3-round w3-light-gray" rows="4" id="reg_obs" placeholder="Escriba aquí los detalles médicos, síntomas iniciales o si padece alguna alergia severa..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="w3-container w3-border-top w3-padding-16 w3-right-align">
+                        <button type="button" onclick="limpiarFormulario()" class="w3-button w3-red w3-round w3-margin-right">
+                            <i class="fa-solid fa-trash-can w3-margin-right"></i> Limpiar Información
+                        </button>
+                        <button type="button" onclick="guardarPacienteDinamico()" class="w3-button w3-blue w3-round">
+                            <i class="fa-solid fa-floppy-disk w3-margin-right"></i> Guardar Paciente
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="sec-lista-mascotas" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-blue-grey"><i class="fa-solid fa-list w3-margin-right"></i> Lista de Mascotas Registradas</h3>
+                <p class="w3-text-gray w3-small">Pacientes cargados en el sistema de manera temporal para visualización rápida de la consulta actual.</p>
+                <div class="w3-responsive w3-margin-top">
+                    <table class="w3-table-all w3-hoverable w3-card">
+                        <thead>
+                            <tr class="w3-blue-grey">
+                                <th>Nombre Mascota</th>
+                                <th>Especie</th>
+                                <th>Raza</th>
+                                <th>Peso (kg)</th>
+                                <th>DNI Propietario</th>
+                                <th>Alergias / Observaciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-pacientes-cuerpo">
+                            <tr>
+                                <td>Rocco</td>
+                                <td>Canino</td>
+                                <td>Pastor Alemán</td>
+                                <td>32.5</td>
+                                <td>0801199512345</td>
+                                <td>Sensibilidad gástrica a croquetas comerciales.</td>
+                            </tr>
+                            <tr>
+                                <td>Cleo</td>
+                                <td>Felino</td>
+                                <td>Siamés</td>
+                                <td>4.2</td>
+                                <td>0703198854321</td>
+                                <td>Ninguna alergia registrada. Al día con desparasitante.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="sec-actualizar-mascota" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-blue-grey"><i class="fa-solid fa-pen-to-square w3-margin-right"></i> Actualizar Datos de Mascota</h3>
+                <p class="w3-text-gray">Ingrese el identificador único o DNI del propietario para proceder con la modificación de la ficha médica.</p>
+                <div class="w3-row w3-margin-top" style="max-width: 500px;">
+                    <input class="w3-input w3-border w3-left" style="width:75%" type="text" placeholder="Buscar código de paciente...">
+                    <button class="w3-button w3-blue w3-right" style="width:25%" onclick="alert('Mascota localizada. Cargando campos...')">Buscar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="sec-calendario-cirugias" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-orange"><i class="fa-solid fa-calendar-days w3-margin-right"></i> Calendario de Cirugías</h3>
+                <p class="w3-text-gray">Cronograma quirúrgico de la semana actual:</p>
+                <ul class="w3-ul w3-border w3-margin-top">
+                    <li class="w3-padding-16"><b>Mañana 08:30 AM</b> - Toby (Canino) - Esterilización <span class="w3-tag w3-green w3-right">Programado</span></li>
+                    <li class="w3-padding-16"><b>Jueves 02:00 PM</b> - Bella (Felino) - Extracción de Quiste <span class="w3-tag w3-amber w3-right">En espera de insumos</span></li>
+                </ul>
+            </div>
+        </div>
+        <div id="sec-programar-cirugia" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-blue-grey"><i class="fa-solid fa-calendar-plus w3-margin-right"></i> Programar Cirugía</h3>
+                <p class="w3-text-gray">Formulario digital de asignación de quirófanos, cirujano responsable y tipo de anestesia requerida.</p>
+            </div>
+        </div>
+        <div id="sec-postoperatorio" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-blue-grey"><i class="fa-solid fa-bed-pulse w3-margin-right"></i> Seguimiento Postoperatorio</h3>
+                <p class="w3-text-gray">Módulo de control para bitácoras de animales hospitalizados (Monitoreo de sueros, temperatura y dolor).</p>
+            </div>
+        </div>
+
+        <div id="sec-historial-vacunas" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-teal"><i class="fa-solid fa-clock-rotate-left w3-margin-right"></i> Historial de Vacunación</h3>
+                <p class="w3-text-gray">Búsqueda histórica de la cartilla digital de vacunas (Antirrábica, Múltiple, Quíntuple canina).</p>
+            </div>
+        </div>
+        <div id="sec-registrar-vacuna" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-blue-grey"><i class="fa-solid fa-plus w3-margin-right"></i> Registrar Nueva Vacuna</h3>
+                <p class="w3-text-gray">Pantalla visual para el ingreso de lote, laboratorio fabricante y dosis inoculada en mililitros.</p>
+            </div>
+        </div>
+        <div id="sec-proximas-vacunas" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-red"><i class="fa-solid fa-calendar-check w3-margin-right"></i> Próximas Vacunas</h3>
+                <div class="w3-panel w3-leftbar w3-border-red w3-pale-red w3-padding-large">
+                    <h5>Alertas del mes</h5>
+                    <p class="w3-small">Hay 12 pacientes que requieren llamada telefónica para refuerzo anual durante esta semana.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="sec-inventario-farmacia" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-blue-grey"><i class="fa-solid fa-boxes-stacked w3-margin-right"></i> Inventario de Farmacia</h3>
+                <p class="w3-text-gray">Stock activo de medicamentos veterinarios clasificados por categorías (Antibióticos, Antiparasitarios).</p>
+            </div>
+        </div>
+        <div id="sec-entrada-medicamentos" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-blue-grey"><i class="fa-solid fa-circle-down w3-margin-right"></i> Entrada de Medicamentos</h3>
+                <p class="w3-text-gray">Ingreso logístico de mercadería enviada por droguerías y laboratorios autorizados.</p>
+            </div>
+        </div>
+        <div id="sec-medicamentos-vencer" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-orange w3-text-white w3-round w3-padding-24">
+                <h3><i class="fa-solid fa-triangle-exclamation w3-margin-right"></i> Medicamentos por Vencer</h3>
+                <p>Reporte preventivo de medicamentos clínicos con fecha de caducidad menor a 60 días naturales.</p>
+            </div>
+        </div>
+
+        <div id="sec-nueva-factura" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-green"><i class="fa-solid fa-receipt w3-margin-right"></i> Nueva Factura</h3>
+                <p class="w3-text-gray">Caja registradora digital para la totalización de consultas externas, medicamentos consumidos y estética.</p>
+            </div>
+        </div>
+        <div id="sec-historial-facturas" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-blue-grey"><i class="fa-solid fa-history w3-margin-right"></i> Historial de Facturas</h3>
+                <p class="w3-text-gray">Consulta y reimpresión de comprobantes fiscales de venta emitidos durante el año fiscal.</p>
+            </div>
+        </div>
+        <div id="sec-pagos-pendientes" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-red"><i class="fa-solid fa-clock w3-margin-right"></i> Pagos Pendientes</h3>
+                <p class="w3-text-gray">Cuentas corrientes corporativas y créditos pendientes de pago por concepto de cirugías complejas.</p>
+            </div>
+        </div>
+
+        <div id="sec-datos-clinica" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-blue-grey"><i class="fa-solid fa-hospital w3-margin-right"></i> Datos de la Clínica</h3>
+                <p class="w3-text-gray">Información general: Razón Social, Dirección Comercial, Registro Tributario y teléfonos de emergencia.</p>
+            </div>
+        </div>
+        <div id="sec-usuarios-sistema" class="modulo-seccion w3-animate-opacity">
+            <div class="w3-card w3-white w3-round w3-padding-24">
+                <h3 class="w3-text-blue-grey"><i class="fa-solid fa-users-gear w3-margin-right"></i> Usuarios del Sistema</h3>
+                <p class="w3-text-gray">Administración de perfiles y credenciales de acceso para Médicos Veterinarios, Secretarias y Cajeros.</p>
+            </div>
+        </div>
+
+        <footer class="w3-container w3-center w3-text-gray w3-margin-top w3-padding-24 w3-small">
+            <hr style="border-top: 1px solid #cbd5e1;">
+            <p>&copy; 2026 Clínica Veterinaria VetCare Pro. Interfaz Dinámica Local con W3.CSS.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('menu-mascotas').style.display = "block";
+        document.getElementById('default-sub').classList.add('active-sub');
+
+        function toggleSubmenu(id) {
+            var menu = document.getElementById(id);
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+        }
+
+        function mostrarModulo(idModulo, elementoBoton) {
+            var secciones = document.getElementsByClassName('modulo-seccion');
+            for (var i = 0; i < secciones.length; i++) {
+                secciones[i].classList.remove('activo');
+            }
+            
+            document.getElementById(idModulo).classList.add('activo');
+            
+            var itemsSubmenu = document.querySelectorAll('.submenu .w3-bar-item');
+            itemsSubmenu.forEach(function(item) {
+                item.classList.remove('active-sub');
+            });
+            
+            if(elementoBoton) {
+                elementoBoton.classList.add('active-sub');
+            }
+        }
+
+        function guardarPacienteDinamico() {
+            var nombre = document.getElementById('reg_nombre').value.trim();
+            var especie = document.getElementById('reg_especie').value;
+            var raza = document.getElementById('reg_raza').value.trim();
+            var peso = document.getElementById('reg_peso').value.trim();
+            var dni = document.getElementById('reg_dni').value.trim();
+            var obs = document.getElementById('reg_obs').value.trim();
+
+            if (!nombre || !especie || !raza || !peso || !dni) {
+                alert("Por favor, rellene todos los campos obligatorios del formulario.");
+                return;
+            }
+
+            var tablaCuerpo = document.getElementById('tabla-pacientes-cuerpo');
+            var nuevaFila = tablaCuerpo.insertRow();
+
+            nuevaFila.innerHTML = `
+                <td><b>${nombre}</b></td>
+                <td>${especie}</td>
+                <td>${raza}</td>
+                <td>${peso}</td>
+                <td>${dni}</td>
+                <td><span class="w3-text-blue">${obs ? obs : 'Ninguna registrada'}</span></td>
+            `;
+
+            alert("¡Paciente guardado de forma visual con éxito!\nPuedes ir al submenú 'Lista de Mascotas' y verás los datos añadidos a la tabla.");
+            
+            document.getElementById('patientForm').reset();
+        }
+
+        function limpiarFormulario() {
+            if(confirm("¿Seguro que desea vaciar los campos escritos del formulario?")) {
+                document.getElementById('patientForm').reset();
+            }
+        }
+
+        function logoutSimulado() {
+            if(confirm("¿Desea cerrar la sesión administrativa en VetCare Pro?")) {
+                alert("Simulación de salida completada.");
+            }
+        }
+    </script>
+</body>
+</html>
